@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ecotracker</title>
+
+    <!--Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Link Hoja CSS-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- Sección: Nav bar-->
+        <nav class="navbar">
+            <div class="brand"><a href="#">Ecotracker</a></div>
+            <ul class="nav-link">
+                <li> <a href="#">Qué es</a></li>
+                <li><a href="#">Cómo funciona</a></li>
+                <li><a href="#">Descarga la app</a></li>
+            </ul>
+
+            <button class="cart">
+                🛒 <span>0</span>
+            </button>
+        </nav>
+
+
+        <!--Sección: Hero-->
+        <section id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Transforma tus residuos en vida</h1>
+                <p class="hero-subtitle">
+                    Ecotracker te ayuda a compostar de forma inteligente
+                    y sostenible desde tu hogar.
+                </p>
+
+                <div class="hero-button">
+                    <a href="#que-es">
+                        <button>Conocer Ecotracker</button>
+                    </a>
+
+                    <a href="#productos">
+                        <button>Ver tienda</button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!--Sección About-->
+        <section id="about">
+            <h2 class="about-title">
+                Todo lo que necesitas para empezar a compostar</h2>
+
+            <p class="about-subtitle">
+                En Ecotracker te ayudamos a transformar tus residuos
+                orgánicos en compost de forma simple y eficiente.
+            </p>
+
+            <div class="grid">
+
+                <div class="card-about">
+                    <h3 class="card-title">Deja una huella verde</h3>
+                    <p class="card-body">
+                        Reduce la cantidad de basura que generas y obtén abono
+                        natural para tus plantas mientras contribuyes al cuidado
+                        del medio ambiente.
+                    </p>
+                </div>
+
+                <div class="card-about">
+                    <h3 class="card-title">Todo en un solo lugar</h3>
+                    <p class="card-body">
+                        Encuentra compostadoras, herramientas y accesorios
+                        seleccionados para facilitar el proceso desde el primer día.
+                    </p>
+                </div>
+
+                <div class="card-about">
+                    <h3 class="card-title">Monitoreo inteligente</h3>
+                    <p class="card-body">
+                        Complementa tu experiencia con la app Ecotracker
+                        y sigue el progreso de tu compost en tiempo real,
+                        desde cualquier lugar.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!--Sección How it works-->
+        <section id="how-it-works">
+            <h2 class="how-title">
+                Cómo funciona Ecotracker
+            </h2>
+
+            <p class="how-subtitle">
+                Empieza a compostar en casa en pocos pasos
+                y obtén resultados reales.
+            </p>
+
+            <div class="steps">
+
+                <div class="step">
+                    <h3 class="step-title">1. Elige tu compostera</h3>
+                    <p class="step-body">
+                        Selecciona el kit o accesorios adecuados
+                        para tu espacio y necesidades.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3 class="step-title">2. Instala el sistema</h3>
+                    <p class="step-body">
+                        Prepara tu compostera y comienza a depositar
+                        residuos orgánicos de forma correcta.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3 class="step-title">3. Monitorea el proceso</h3>
+                    <p class="step-body">
+                        Utiliza herramientas o la app Ecotracker
+                        para seguir el estado de tu compost.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3 class="step-title">4. Obtén compost de calidad</h3>
+                    <p class="step-body">
+                        Disfruta de abono natural listo para
+                        nutrir tus plantas y jardines.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!--Sección: Catalog-->
+        <section id="catalog">
+            <h2 class="catalog-title">Catálogo de productos</h2>
+            <div id="app">
+                <product-list :products="products"></product-list>
+            </div>
+
+        </section>
+
+
+        <!-- Sección: Footer -->
+        <footer id="site-footer">
+
+            <div class="footer-container">
+
+                <div class="footer-brand">
+                    <img src="assets/images/logo.png" alt="Ecotracker logo">
+                    <p>
+                        Ecotracker te ayuda a transformar residuos orgánicos
+                        en compost y construir un futuro más sostenible.
+                    </p>
+                </div>
+
+                <div class="footer-app">
+                    <h4>App Ecotracker</h4>
+                    <p>
+                        Monitorea tu compost en tiempo real, recibe alertas
+                        y recomendaciones desde tu teléfono.
+                    </p>
+                    <p><strong>Disponible próximamente</strong></p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Secciones</h4>
+                    <ul>
+                        <li><a href="#about">Sobre nosotros</a></li>
+                        <li><a href="#how-it-works">Cómo funciona</a></li>
+                        <li><a href="#catalog">Catálogo</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p>Email: contacto@ecotracker.cl</p>
+                    <p>Santiago, Chile</p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    Cambios y devoluciones · Términos y condiciones ·
+                    Política de privacidad
+                </p>
+                <p>© 2026 Ecotracker — Todos los derechos reservados</p>
+            </div>
+
+        </footer>
+
+    </div>
+
+    <!-- CDN Vue -->
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- JS principal: app.js -->
+    <script src="js/app.js"></script>
+
+    <!-- Componentes -->
+    <script src="components/Navbar.js"></script>
+    <script src="components/ProductCard.js"></script>
+    <script src="components/ProductList.js"></script>
+    <script src="components/ProductDetail.js"></script>
+    <script src="components/Cart.js"></script>
+
+
+    <script>
+        app.mount('#app')
+    </script>
+
+</body>
+
+</html>
