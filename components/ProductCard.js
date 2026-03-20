@@ -1,19 +1,19 @@
 app.component('product-card', {
 
-  props: ['product'], //recibe UN producto del list
+    props: ['product'],
 
-  template: `
-    <div class="product-card"
-     @click="$emit('view-detail', product)">
+    template: `
+    <div class="product-card" @click="$emit('view-detail', product)">
 
-        <img :src="product.image" :alt="product.name">
+        <img class="product-card__image" :src="product.image" :alt="product.name">
 
-        <h3 class="product-name">{{ product.name }}</h3>
+        <h3 class="product-card__name">{{ product.name }}</h3>
 
-        <p class="product-category">{{ product.category }}</p>
+        <p class="product-card__category">{{ product.category }}</p>
 
-        <p class="product-price">$ {{ product.price }}</p>
+        <p class="product-card__price">$ {{ product.price }}</p>
 
     </div>
-`
+    `
+
 })
