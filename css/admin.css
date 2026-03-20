@@ -1,0 +1,646 @@
+/* =========================================
+   ADMIN.CSS — Login + Dashboard
+   Ecotracker — misma estética del sitio
+   ========================================= */
+
+
+/* =========================================
+   LOGIN PAGE
+   ========================================= */
+.login-page {
+    background: var(--s-900);
+    background-image: url("../assets/pattern-about.svg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.login__brand a {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--n-50);
+    text-decoration: none;
+}
+
+.login__card {
+    background: #fff;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 26rem;
+    box-shadow: var(--shadow-s5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.login__title {
+    font-size: 1.5rem;
+    color: var(--n-800);
+}
+
+.login__subtitle {
+    color: var(--n-500);
+    font-size: 0.9rem;
+    margin-top: -0.75rem;
+}
+
+.login__error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #FFF0F0;
+    border: 1px solid #FFCDD2;
+    color: #B71C1C;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.login__error .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+.login__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.login__label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--n-800);
+}
+
+.login__input {
+    border: 1px solid var(--n-200);
+    border-radius: 0.75rem;
+    padding: 0.7rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    color: var(--n-800);
+    background: var(--n-50);
+    transition: border-color .2s ease;
+    outline: none;
+}
+
+.login__input:focus {
+    border-color: var(--p-600);
+}
+
+.login__btn {
+    width: 100%;
+    margin-top: 0.5rem;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.login__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--n-500);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.login__back:hover {
+    color: var(--p-700);
+}
+
+.login__back .material-symbols-outlined {
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   ADMIN NAVBAR
+   ========================================= */
+.admin-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.06);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.admin-nav__brand a {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    text-decoration: none;
+    color: var(--p-700);
+}
+
+.admin-nav__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.admin-nav__badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--s-50);
+    color: var(--s-700);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.admin-nav__badge .material-symbols-outlined {
+    font-size: 1rem;
+}
+
+.admin-nav__date {
+    font-size: 0.78rem;
+    color: var(--n-500);
+}
+
+.admin-nav__logout {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.admin-nav__logout .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+
+/* =========================================
+   ALERTA STOCK BAJO
+   ========================================= */
+.admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #FFF8E1;
+    border-left: 4px solid #F9A825;
+    color: #5D4037;
+    padding: 0.85rem 5%;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.admin-alert .material-symbols-outlined {
+    font-size: 1.2rem;
+    color: #F9A825;
+}
+
+
+/* =========================================
+   ADMIN MAIN LAYOUT
+   ========================================= */
+.admin-main {
+    padding: 2.5rem 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.admin-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.admin-header__title {
+    font-size: 2rem;
+    color: var(--n-800);
+}
+
+.admin-header__subtitle {
+    color: var(--n-500);
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+}
+
+.admin-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.admin-section__title {
+    font-size: 1.2rem;
+    color: var(--n-800);
+}
+
+
+/* =========================================
+   KPI CARDS
+   ========================================= */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.25rem;
+}
+
+.kpi-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-s2);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: var(--shadow-s5);
+}
+
+.kpi-card__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kpi-card__icon .material-symbols-outlined {
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.kpi-card__icon--sales  { background: var(--p-600); }
+.kpi-card__icon--income { background: var(--s-600); }
+.kpi-card__icon--loss   { background: #E53935; }
+.kpi-card__icon--net    { background: var(--p-800); }
+
+.kpi-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.kpi-card__label {
+    font-size: 0.8rem;
+    color: var(--n-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.kpi-card__value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--n-800);
+}
+
+.kpi-card__trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.kpi-card__trend .material-symbols-outlined {
+    font-size: 1rem;
+}
+
+.kpi-card__trend--up   { color: var(--p-600); }
+.kpi-card__trend--down { color: #E53935; }
+
+
+/* =========================================
+   GRÁFICOS
+   ========================================= */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.chart-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-s2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.chart-card__title {
+    font-size: 1rem;
+    color: var(--n-800);
+}
+
+.chart-card__subtitle {
+    font-size: 0.8rem;
+    color: var(--n-500);
+    margin-bottom: 1rem;
+}
+
+.chart-card__canvas {
+    position: relative;
+    height: 16rem;
+}
+
+.chart-card__canvas--donut {
+    height: 20rem;
+}
+
+
+/* =========================================
+   INVENTARIO
+   ========================================= */
+.inventory-table-wrapper {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-s2);
+    overflow: hidden;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.inventory-table__head {
+    background: var(--n-50);
+}
+
+.inventory-table__head th {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--n-500);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--n-100);
+}
+
+.inventory-table__row {
+    border-bottom: 1px solid var(--n-100);
+    transition: background .15s ease;
+}
+
+.inventory-table__row:last-child {
+    border-bottom: none;
+}
+
+.inventory-table__row:hover {
+    background: var(--n-50);
+}
+
+.inventory-table__row td {
+    padding: 1rem 1.25rem;
+    color: var(--n-800);
+}
+
+.inventory-table__name     { font-weight: 500; }
+.inventory-table__category { color: var(--n-500); }
+.inventory-table__price    { font-weight: 600; color: var(--p-700); }
+.inventory-table__stock    { font-weight: 600; }
+
+.inventory-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.inventory-badge--ok  { background: var(--p-100); color: var(--p-800); }
+.inventory-badge--low { background: #FFF8E1;       color: #F57F17; }
+.inventory-badge--out { background: #FFEBEE;       color: #C62828; }
+
+/* Botón editar */
+.inventory-table__edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--s-50);
+    border: 1px solid var(--s-200);
+    color: var(--s-700);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all .2s ease;
+}
+
+.inventory-table__edit-btn:hover {
+    background: var(--s-100);
+    border-color: var(--s-400);
+}
+
+.inventory-table__edit-btn .material-symbols-outlined {
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   CLOSE BTN (compartido)
+   ========================================= */
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--n-100);
+    border: none;
+    border-radius: 999px;
+    width: 2.2rem;
+    height: 2.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+.close-btn:hover {
+    background: var(--p-300);
+    transform: scale(1.1);
+}
+
+.close-btn .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+
+/* =========================================
+   MODAL EDICIÓN PRODUCTO
+   ========================================= */
+.edit-modal {
+    background: #fff;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 36rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow-s5);
+}
+
+.edit-modal__title {
+    font-size: 1.5rem;
+    color: var(--n-800);
+    margin-bottom: 0.25rem;
+}
+
+.edit-modal__subtitle {
+    font-size: 0.85rem;
+    color: var(--n-500);
+    margin-bottom: 1.75rem;
+}
+
+.edit-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.edit-modal__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.edit-modal__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.edit-modal__label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--n-800);
+}
+
+.edit-modal__input {
+    border: 1px solid var(--n-200);
+    border-radius: 0.75rem;
+    padding: 0.7rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    color: var(--n-800);
+    background: var(--n-50);
+    transition: border-color .2s ease;
+    outline: none;
+}
+
+.edit-modal__input:focus {
+    border-color: var(--p-600);
+}
+
+.edit-modal__input--textarea {
+    resize: vertical;
+    min-height: 6rem;
+}
+
+.edit-modal__preview {
+    width: 100%;
+    max-height: 10rem;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--n-100);
+}
+
+.edit-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--n-100);
+}
+
+
+/* =========================================
+   RESPONSIVE ADMIN
+   ========================================= */
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-main {
+        padding: 1.5rem 4%;
+    }
+    .admin-nav {
+        padding: 0.85rem 4%;
+    }
+    .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .inventory-table__head th,
+    .inventory-table__row td {
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    .admin-nav__meta {
+        display: none;
+    }
+    .inventory-table {
+        font-size: 0.82rem;
+    }
+    .inventory-table__head th,
+    .inventory-table__row td {
+        padding: 0.6rem 0.75rem;
+    }
+    .edit-modal {
+        width: 100%;
+        border-radius: 1.5rem 1.5rem 0 0;
+        padding: 1.5rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        max-height: 92vh;
+    }
+    .edit-modal__row {
+        grid-template-columns: 1fr;
+    }
+    .edit-modal__actions {
+        flex-direction: column-reverse;
+    }
+    .edit-modal__actions .btn {
+        width: 100%;
+    }
+}

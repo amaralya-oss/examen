@@ -16,6 +16,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="">
 </head>
 
 <body>
@@ -23,54 +24,24 @@
     <div id="app">
 
         <!-- Section: Nav bar-->
-        <nav class="navbar">
-            <div class="navbar__brand"><a href="#">ecotracker</a></div>
+        <navbar :cart="cart" @open-cart="cartOpen = true">
+        </navbar>
 
-            <ul class="navbar__links">
-                <li class="navbar__item"><a class="navbar__link" href="#about">Quiénes somos</a></li>
-                <li class="navbar__item"><a class="navbar__link" href="#how-it-works">Cómo funciona</a></li>
-                <li class="navbar__item"><a class="navbar__link" href="#catalog">Tienda</a></li>
-                <li class="navbar__item"><a class="navbar__link" href="#site-footer">Descarga la app</a></li>
-            </ul>
-
-            <button class="navbar__cart" @click="cartOpen = true">
-                <span class="material-symbols-outlined">shopping_bag</span>
-                <span class="navbar__cart-count">{{ cart.length }}</span>
-            </button>
-        </nav>
 
         <!-- Section: Carrito-->
-        <div class="cart-drawer" :class="{ 'cart-drawer--open': cartOpen }">
+<cart-drawer
+  :cart="cart"
+  :cart-open="cartOpen"
+  :cart-total="cartTotal"
 
-            <div class="cart-drawer__header">Tu carrito</div>
+  @close-cart="closeCart"
+  @checkout="checkout"
 
-            <button class="cart-drawer__close" @click="cartOpen = false">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-            
-
-
-            <div class="cart-drawer__content">
-                <p class="cart-drawer__empty" v-if="cart.length === 0">
-                    Tu carrito está vacío
-                </p>
-                <ul class="cart-drawer__list" v-else>
-                    <li class="cart-drawer__item" v-for="item in cart" :key="item.id">
-                        {{ item.name }} — ${{ item.price }}
-                    </li>
-                </ul>
-            </div>
-
-            <div class="cart-drawer__footer">
-                <div class="cart-drawer__total">
-                    <span>Total:</span>
-                    <span class="cart-drawer__total-price">$ 0</span>
-                </div>
-                <button class="btn btn--primary" @click="checkout">Finalizar compra</button>
-                <button class="btn btn--outline" @click="cartOpen = false">Continuar comprando</button>
-            </div>
-
-        </div>
+  @increase="increaseQty"
+  @decrease="decreaseQty"
+  @remove="removeFromCart"
+>
+</cart-drawer>
 
         <!-- Section: Modales y toast-->
 
@@ -94,8 +65,7 @@
 
         </div>
 
-        <!-- Section: hero-->
-
+        <!-- Section: Hero-->
         <section class="hero" id="hero">
             <video class="hero__video" autoplay muted loop playsinline>
                 <source src="assets/hero.mp4" type="video/mp4">
@@ -103,16 +73,15 @@
 
             <div class="hero__content">
                 <h1 class="hero__title">Transforma tus residuos en vida</h1>
-                <p class="hero__subtitle">
-                    Ecotracker te ayuda a compostar de forma inteligente
-                    y sostenible desde tu hogar.
+                <p class="hero__subtitle">Convierte tus desechos orgánicos en compost de calidad desde tu hogar, de
+                    forma simple, inteligente y sostenible.
                 </p>
                 <div class="hero__actions">
                     <a href="#about">
                         <button class="btn btn--primary">Conocer Ecotracker</button>
                     </a>
                     <a href="#catalog">
-                        <button class="btn btn--primary">Ver tienda</button>
+                        <button class="btn btn--primary">Explorar tienda</button>
                     </a>
                 </div>
             </div>
@@ -121,38 +90,35 @@
 
         <!-- Section: About-->
         <section class="about" id="about">
-            <h2 class="about__title">
-                Descubre el fascinante proceso del compostaje y disfruta de una vida más
-                <span class="special-italic">verde</span>
+            <h2 class="about__title">Compostar nunca fue tan <span class="special-italic">fácil</span>
             </h2>
 
             <div class="about__grid">
                 <div class="about-card">
                     <img class="about-card__icon" src="assets/icon1.svg" alt="icon">
-                    <h3 class="about-card__title">Deja una huella verde</h3>
+                    <h3 class="about-card__title">Reduce tu basura, nutre tus plantas</h3>
                     <p class="about-card__body">
-                        Reduce la cantidad de basura que generas y obtén abono
-                        natural para tus plantas mientras contribuyes al cuidado
-                        del medio ambiente.
+                        Disminuye los residuos que generas y obtén abono natural mientras contribuyes al cuidado del
+                        planeta.
+
                     </p>
                 </div>
 
                 <div class="about-card">
                     <img class="about-card__icon" src="assets/icon2.svg" alt="icon">
-                    <h3 class="about-card__title">Todo en un solo lugar</h3>
+                    <h3 class="about-card__title">Todo lo que necesitas para empezar</h3>
                     <p class="about-card__body">
-                        Encuentra compostadoras, herramientas y accesorios
-                        seleccionados para facilitar el proceso desde el primer día.
+                        Composteras, herramientas y accesorios cuidadosamente seleccionados para facilitar el proceso
+                        desde el primer día.
                     </p>
                 </div>
 
                 <div class="about-card">
                     <img class="about-card__icon" src="assets/icon3.svg" alt="icon">
-                    <h3 class="about-card__title">Monitoreo inteligente</h3>
+                    <h3 class="about-card__title">Controla tu compost en tiempo real</h3>
                     <p class="about-card__body">
-                        Complementa tu experiencia con la app Ecotracker
-                        y sigue el progreso de tu compost en tiempo real,
-                        desde cualquier lugar.
+                        Con la app Ecotracker podrás seguir el progreso, recibir alertas y recomendaciones desde
+                        cualquier lugar.
                     </p>
                 </div>
             </div>
@@ -162,7 +128,7 @@
 
         <section class="how" id="how-it-works">
             <h2 class="how__title">
-                Cómo funciona <span class="special-italic">Ecotracker</span>
+                Empieza a compostar en casa en <span class="special-italic">4 pasos</span>
             </h2>
             <p class="how__subtitle">
                 Empieza a compostar en casa en pocos pasos y obtén resultados reales.
@@ -175,7 +141,7 @@
                 </div>
 
                 <div class="step">
-                    <h3 class="step__title"><span class="special-italic">2.</span><br>Instala el sistema</h3>
+                    <h3 class="step__title"><span class="special-italic">2.</span><br>Instala tu compostera</h3>
                     <p class="step__body">Prepara tu compostera y comienza a depositar residuos orgánicos de forma
                         correcta.</p>
                 </div>
@@ -187,14 +153,13 @@
                 </div>
 
                 <div class="step">
-                    <h3 class="step__title"><span class="special-italic">4.</span><br>Obtén compost de calidad</h3>
+                    <h3 class="step__title"><span class="special-italic">4.</span><br>Disfruta tu compost listo</h3>
                     <p class="step__body">Disfruta de abono natural listo para nutrir tus plantas y jardines.</p>
                 </div>
             </div>
         </section>
 
         <!-- Section:Catalog-->
-
         <section class="catalog" id="catalog">
             <h2 class="catalog__title">Catálogo de productos</h2>
 
@@ -210,7 +175,6 @@
         </section>
 
         <!-- Section: Footer-->
-
         <footer class="footer" id="site-footer">
 
             <div class="footer__container">
@@ -218,16 +182,16 @@
                 <div class="footer__brand">
                     <div class="footer__logo"><a href="#">ecotracker</a></div>
                     <p class="footer__description">
-                        Ecotracker te ayuda a transformar residuos orgánicos
-                        en compost y construir un futuro más sostenible.
+                        Ecotracker convierte residuos orgánicos en vida, ayudándote a reducir tu impacto ambiental desde
+                        casa.
                     </p>
                 </div>
 
                 <div class="footer__app">
                     <h4 class="footer__heading">App Ecotracker</h4>
                     <p class="footer__text">
-                        Monitorea tu compost en tiempo real, recibe alertas
-                        y recomendaciones desde tu teléfono.
+                        Controla tu compost desde cualquier lugar: recibe alertas, recomendaciones y seguimiento en
+                        tiempo real.
                     </p>
                     <p class="footer__text"><strong>Disponible próximamente</strong></p>
                 </div>
@@ -263,18 +227,23 @@
     <!-- CDN Vue -->
     <script src="https://unpkg.com/vue@3"></script>
 
-    <!-- JS principal -->
+    <!-- 1. Datos -->
+    <script src="components/Products.js"></script>
+
+    <!-- 2. App — debe existir ANTES que los componentes -->
     <script src="js/app.js"></script>
 
-    <!-- Componentes -->
+    <!-- 3. Componentes — usan app.component() así que app debe existir ya -->
+    <script src="components/Navbar.js"></script>
+    <script src="components/Cart.js"></script>
     <script src="components/ProductCard.js"></script>
     <script src="components/ProductList.js"></script>
     <script src="components/ProductDetail.js"></script>
 
+    <!-- 4. Mount siempre último -->
     <script>
         app.mount('#app')
     </script>
-
 </body>
 
 </html>

@@ -1,18 +1,11 @@
 const app = Vue.createApp({
     data() {
+        const saved = localStorage.getItem('ecotracker_products')
+        const initialProducts = saved ? JSON.parse(saved) : [...products]
+
+
         return {
-            products: [
-                { id: 1, name: "Kit compostaje básico", category: "Starter Kits", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. " },
-                { id: 2, name: "Kit compostaje urbano", category: "Starter Kits", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. " },
-                { id: 3, name: "Sensor de humedad", category: "Tecnología", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 4, name: "Sensor de temperatura", category: "Tecnología", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 5, name: "Compostera doméstica (bin)", category: "Accesorios", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 6, name: "Aireador", category: "Accesorios", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 7, name: "Balde de residuos orgánicos", category: "Accesorios", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 8, name: "Filtro de carbón anti olores", category: "Accesorios", price: 15000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 9, name: "Guía digital", category: "Educación", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-                { id: 10, name: "Curso a domicilio", category: "Educación", price: 14000, image: "assets/images/product-1.png", stock: 20, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis ante, commodo et faucibus in, gravida ut neque. Nam sed tincidunt arcu. Pellentesque quis condimentum lectus. Aliquam eget felis vel lorem semper mattis. Donec tortor tellus, blandit quis odio a, auctor placerat risus. Vestibulum dapibus non ligula vel ultricies. "  },
-            ],
+            products: initialProducts,
 
             cart: [],
 
@@ -31,7 +24,17 @@ const app = Vue.createApp({
     methods: {
 
         addToCart(product) {
-            this.cart.push(product)
+
+            const existing = this.cart.find(item => item.id === product.id)
+
+            if (existing) {
+                existing.quantity++
+            } else {
+                this.cart.push({
+                    ...product,
+                    quantity: 1
+                })
+            }
 
             this.showToast = true
 
@@ -41,10 +44,46 @@ const app = Vue.createApp({
         },
 
         checkout() {
+            if (this.cart.length === 0) return
+
+            this.cart.forEach(cartItem => {
+                const product = this.products.find(p => p.id === cartItem.id)
+                if (product && product.stock > 0) {
+                    product.stock--
+                }
+            })
+
+            localStorage.setItem('ecotracker_products', JSON.stringify(this.products))
+
             this.cart = []
             this.cartOpen = false
             this.showModal = true
+        },
+
+        closeCart() {
+            this.cartOpen = false
+        },
+        increaseQty(id) {
+            const item = this.cart.find(i => i.id === id)
+            if (item) item.quantity++
+        },
+
+        decreaseQty(id) {
+            const item = this.cart.find(i => i.id === id)
+
+            if (!item) return
+
+            if (item.quantity > 1) {
+                item.quantity--
+            } else {
+                this.removeFromCart(id)
+            }
+        },
+
+        removeFromCart(id) {
+            this.cart = this.cart.filter(i => i.id !== id)
         }
+
 
     },
 
@@ -62,7 +101,16 @@ const app = Vue.createApp({
             return this.products.filter(
                 p => p.category === this.selectedCategory
             )
+        },
+
+        cartTotal() {
+            return this.cart.reduce(
+                (sum, item) => sum + item.price * item.quantity,
+                0
+            )
         }
     }
+
+
 })
 

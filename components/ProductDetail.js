@@ -14,6 +14,7 @@ app.component('product-detail', {
             <div class="product-detail__layout">
 
                 <img class="product-detail__image" :src="product.image" :alt="product.name">
+                <span class="product-card__badge" v-if="product.stock === 0">Agotado</span>
 
                 <div class="product-detail__info">
 
@@ -26,10 +27,12 @@ app.component('product-detail', {
                     <p class="product-detail__stock">Stock disponible: {{ product.stock }}</p>
 
                     <p class="product-detail__description">{{ product.description }}</p>
-
-                    <button class="btn btn--outline" @click="$emit('add-to-cart', product)">
+                    <button 
+                        class="btn btn--outline"
+                        @click="$emit('add-to-cart', product)"
+                        :disabled="product.stock === 0">
                         <span class="material-symbols-outlined">add</span>
-                        Agregar al carro
+                        {{ product.stock === 0 ? 'Agotado' : 'Agregar al carro' }}
                     </button>
 
                 </div>

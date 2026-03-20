@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecotracker — Admin Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="login-page">
+
+    <div id="app">
+
+        <div class="login">
+
+            <div class="login__brand">
+                <a href="index.html">ecotracker</a>
+            </div>
+
+            <div class="login__card">
+                <h1 class="login__title">Acceso administrador</h1>
+                <p class="login__subtitle">Ingresa tus credenciales para continuar</p>
+
+                <div class="login__error" v-if="error">
+                    <span class="material-symbols-outlined">error</span>
+                    {{ error }}
+                </div>
+
+                <div class="login__field">
+                    <label class="login__label">Usuario</label>
+                    <input
+                        class="login__input"
+                        type="text"
+                        v-model="username"
+                        placeholder="admin"
+                        @keyup.enter="handleLogin">
+                </div>
+
+                <div class="login__field">
+                    <label class="login__label">Contraseña</label>
+                    <input
+                        class="login__input"
+                        type="password"
+                        v-model="password"
+                        placeholder="••••••••"
+                        @keyup.enter="handleLogin">
+                </div>
+
+                <button class="btn btn--primary login__btn" @click="handleLogin">
+                    Ingresar
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+
+                <a class="login__back" href="index.html">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Volver al sitio
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                    error: ''
+                }
+            },
+            methods: {
+                handleLogin() {
+                    this.error = ''
+                    if (this.username === 'admin' && this.password === 'ecotracker2026') {
+                        window.location.href = 'admin.html'
+                    } else {
+                        this.error = 'Usuario o contraseña incorrectos'
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+
+</body>
+</html>

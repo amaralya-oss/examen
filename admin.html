@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecotracker — Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- ==============================
+             NAVBAR ADMIN
+        =============================== -->
+        <nav class="admin-nav">
+            <div class="admin-nav__brand"><a href="index.html">ecotracker</a></div>
+            <div class="admin-nav__meta">
+                <span class="admin-nav__badge">
+                    <span class="material-symbols-outlined">admin_panel_settings</span>
+                    Administrador
+                </span>
+                <span class="admin-nav__date">Último acceso: hoy, 09:41</span>
+            </div>
+            <a class="admin-nav__logout btn btn--outline" href="login.html">
+                <span class="material-symbols-outlined">logout</span>
+                Cerrar sesión
+            </a>
+        </nav>
+
+        <!-- ==============================
+             ALERTA STOCK BAJO
+        =============================== -->
+        <div class="admin-alert" v-if="lowStockProducts.length > 0">
+            <span class="material-symbols-outlined">warning</span>
+            {{ lowStockProducts.length }} producto(s) con stock bajo o agotado:
+            <strong>{{ lowStockProducts.map(p => p.name).join(', ') }}</strong>
+        </div>
+
+        <main class="admin-main">
+
+            <!-- HEADER -->
+            <div class="admin-header">
+                <div>
+                    <h1 class="admin-header__title">Dashboard</h1>
+                    <p class="admin-header__subtitle">Resumen de marzo 2026</p>
+                </div>
+            </div>
+
+            <!-- KPI CARDS -->
+            <section class="admin-section">
+                <div class="kpi-grid">
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__icon kpi-card__icon--sales">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                        </div>
+                        <div class="kpi-card__info">
+                            <p class="kpi-card__label">Ventas del mes</p>
+                            <p class="kpi-card__value">{{ totalSales }}</p>
+                            <p class="kpi-card__trend kpi-card__trend--up">
+                                <span class="material-symbols-outlined">trending_up</span> +12% vs mes anterior
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__icon kpi-card__icon--income">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                        <div class="kpi-card__info">
+                            <p class="kpi-card__label">Ingresos totales</p>
+                            <p class="kpi-card__value">$ {{ totalIncome.toLocaleString('es-CL') }}</p>
+                            <p class="kpi-card__trend kpi-card__trend--up">
+                                <span class="material-symbols-outlined">trending_up</span> +8% vs mes anterior
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__icon kpi-card__icon--loss">
+                            <span class="material-symbols-outlined">trending_down</span>
+                        </div>
+                        <div class="kpi-card__info">
+                            <p class="kpi-card__label">Pérdidas (dev. + merma)</p>
+                            <p class="kpi-card__value">$ {{ totalLoss.toLocaleString('es-CL') }}</p>
+                            <p class="kpi-card__trend kpi-card__trend--down">
+                                <span class="material-symbols-outlined">trending_down</span> -3% vs mes anterior
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__icon kpi-card__icon--net">
+                            <span class="material-symbols-outlined">account_balance</span>
+                        </div>
+                        <div class="kpi-card__info">
+                            <p class="kpi-card__label">Ganancia neta</p>
+                            <p class="kpi-card__value">$ {{ netIncome.toLocaleString('es-CL') }}</p>
+                            <p class="kpi-card__trend kpi-card__trend--up">
+                                <span class="material-symbols-outlined">trending_up</span> +10% vs mes anterior
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- GRÁFICOS -->
+            <section class="admin-section">
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h2 class="chart-card__title">Ventas por semana</h2>
+                        <p class="chart-card__subtitle">Unidades vendidas — marzo 2026</p>
+                        <div class="chart-card__canvas">
+                            <canvas id="chartWeekly"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h2 class="chart-card__title">Ventas por categoría</h2>
+                        <p class="chart-card__subtitle">Distribución del mes</p>
+                        <div class="chart-card__canvas chart-card__canvas--donut">
+                            <canvas id="chartCategory"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INVENTARIO -->
+            <section class="admin-section">
+                <h2 class="admin-section__title">Inventario de productos</h2>
+
+                <div class="inventory-table-wrapper">
+                    <table class="inventory-table">
+                        <thead class="inventory-table__head">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="inventory-table__row" v-for="product in products" :key="product.id">
+                                <td class="inventory-table__name">{{ product.name }}</td>
+                                <td class="inventory-table__category">{{ product.category }}</td>
+                                <td class="inventory-table__price">$ {{ product.price.toLocaleString('es-CL') }}</td>
+                                <td class="inventory-table__stock">{{ product.stock }}</td>
+                                <td>
+                                    <span class="inventory-badge" :class="stockBadgeClass(product.stock)">
+                                        {{ stockLabel(product.stock) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="inventory-table__edit-btn" @click="openEdit(product)">
+                                        <span class="material-symbols-outlined">edit</span>
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ==============================
+             MODAL EDICIÓN PRODUCTO
+        =============================== -->
+        <div class="modal-overlay" v-if="editingProduct">
+            <div class="edit-modal">
+
+                <button class="close-btn" @click="cancelEdit">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+
+                <h2 class="edit-modal__title">Editar producto</h2>
+                <p class="edit-modal__subtitle">Los cambios se reflejan en la tienda al guardar</p>
+
+                <div class="edit-modal__form">
+
+                    <div class="edit-modal__field">
+                        <label class="edit-modal__label">Nombre</label>
+                        <input class="edit-modal__input" type="text" v-model="editForm.name">
+                    </div>
+
+                    <div class="edit-modal__field">
+                        <label class="edit-modal__label">Descripción</label>
+                        <textarea class="edit-modal__input edit-modal__input--textarea"
+                            v-model="editForm.description"></textarea>
+                    </div>
+
+                    <div class="edit-modal__row">
+                        <div class="edit-modal__field">
+                            <label class="edit-modal__label">Precio (CLP)</label>
+                            <input class="edit-modal__input" type="number" v-model.number="editForm.price" min="0">
+                        </div>
+                        <div class="edit-modal__field">
+                            <label class="edit-modal__label">Stock</label>
+                            <input class="edit-modal__input" type="number" v-model.number="editForm.stock" min="0">
+                        </div>
+                    </div>
+
+                    <div class="edit-modal__field">
+                        <label class="edit-modal__label">URL de imagen</label>
+                        <input class="edit-modal__input" type="text" v-model="editForm.image"
+                            placeholder="assets/images/product-1.png">
+                        <img class="edit-modal__preview" v-if="editForm.image" :src="editForm.image" alt="preview">
+                    </div>
+
+                </div>
+
+                <div class="edit-modal__actions">
+                    <button class="btn btn--outline" @click="cancelEdit">Cancelar</button>
+                    <button class="btn btn--primary" @click="saveEdit">
+                        <span class="material-symbols-outlined">save</span>
+                        Guardar cambios
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Toast confirmación -->
+        <div class="toast" v-if="showSavedToast">
+            Producto actualizado ✓
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="components/Products.js"></script>
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                const saved = localStorage.getItem('ecotracker_products')
+                const initialProducts = saved ? JSON.parse(saved) : [...products]
+
+                return {
+                    totalSales: 47,
+                    totalIncome: 685000,
+                    totalLoss: 42000,
+
+                    products: initialProducts,
+
+                    editingProduct: null,
+                    editForm: {},
+                    showSavedToast: false
+                }
+            },
+
+            computed: {
+                netIncome() {
+                    return this.totalIncome - this.totalLoss
+                },
+                lowStockProducts() {
+                    return this.products.filter(p => p.stock <= 5)
+                }
+            },
+
+            methods: {
+                stockLabel(stock) {
+                    if (stock === 0) return 'Agotado'
+                    if (stock <= 5) return 'Stock bajo'
+                    return 'OK'
+                },
+
+                stockBadgeClass(stock) {
+                    if (stock === 0) return 'inventory-badge--out'
+                    if (stock <= 5) return 'inventory-badge--low'
+                    return 'inventory-badge--ok'
+                },
+
+                openEdit(product) {
+                    this.editingProduct = product
+                    this.editForm = { ...product }
+                },
+
+                cancelEdit() {
+                    this.editingProduct = null
+                    this.editForm = {}
+                },
+
+                saveEdit() {
+                    const index = this.products.findIndex(p => p.id === this.editingProduct.id)
+                    if (index !== -1) {
+                        this.products[index] = { ...this.editForm }
+                    }
+                    localStorage.setItem('ecotracker_products', JSON.stringify(this.products))
+                    this.editingProduct = null
+                    this.editForm = {}
+                    this.showSavedToast = true
+                    setTimeout(() => { this.showSavedToast = false }, 2500)
+                }
+            },
+
+            mounted() {
+                new Chart(document.getElementById('chartWeekly'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+                        datasets: [{
+                            label: 'Unidades vendidas',
+                            data: [10, 14, 12, 11],
+                            backgroundColor: '#9BE08D',
+                            borderRadius: 8,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#E6E5E1' }, ticks: { color: '#6E6D5E' } },
+                            x: { grid: { display: false }, ticks: { color: '#6E6D5E' } }
+                        }
+                    }
+                })
+
+                new Chart(document.getElementById('chartCategory'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Starter Kits', 'Tecnología', 'Accesorios', 'Educación'],
+                        datasets: [{
+                            data: [14, 9, 16, 8],
+                            backgroundColor: ['#9BE08D', '#59AE93', '#307223', '#224B1C'],
+                            borderWidth: 0,
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        cutout: '68%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#3B3B34', padding: 16, font: { family: 'Montserrat', size: 13 } }
+                            }
+                        }
+                    }
+                })
+            }
+
+        }).mount('#app')
+    </script>
+
+</body>
+
+</html>
