@@ -13,9 +13,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <!-- Link Hoja CSS-->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
@@ -24,21 +25,84 @@
 
         <!-- Sección: Nav bar-->
         <nav class="navbar">
-            <div class="brand"><a href="#">Ecotracker</a></div>
+            <div class="brand"><a href="#">ecotracker</a></div>
             <ul class="nav-link">
-                <li> <a href="#">Qué es</a></li>
-                <li><a href="#">Cómo funciona</a></li>
-                <li><a href="#">Descarga la app</a></li>
+                <li> <a href="#about">Quiénes somos</a></li>
+                <li><a href="#how-it-works">Cómo funciona</a></li>
+                <li><a href="#catalog">Tienda</a></li>
+                <li><a href="#site-footer">Descarga la app</a></li>
             </ul>
 
-            <button class="cart">
-                🛒 <span>0</span>
+            <button class="cart" @click="cartOpen = true">
+                <span class="material-symbols-outlined">
+                    shopping_bag
+                </span> <span>{{ cart.length }}</span>
             </button>
         </nav>
 
+        <!--Sección: Carrito de compras-->
+
+        <section id="cart">
+            <div class="cart-drawer" :class="{ open: cartOpen}">
+                <div class="header">Tu carrito</div>
+                <button class="close" @click="cartOpen = false"><span class="material-symbols-outlined">
+                        close
+                    </span></button>
+                <div class="cart-content">
+
+                    <p v-if="cart.length === 0">
+                        Tu carrito está vacío
+                    </p>
+
+                    <ul v-else>
+                        <li v-for="item in cart" :key="item.id">
+                            {{ item.name }} — ${{ item.price }}
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="cart-footer">
+                    <div class="total-container">
+                        <span>Total:</span>
+                        <span class="total-price">$ 0</span>
+                    </div>
+                    <button class="btn btn-primary" @click="checkout">Finalizar comprar</button>
+                    <button class="btn btn-outline" @click="cartOpen = false">
+                        Continuar comprando
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección: Modales y UI global -->
+        <div class="ui-layer">
+
+            <!-- Toast -->
+            <div class="toast" v-if="showToast">
+                Producto agregado al carrito 🌿 </div>
+
+            <!-- Modal compra exitosa -->
+            <div class="modal-overlay" v-if="showModal">
+                <div class="modal">
+                    <h2>¡Compra realizada!</h2>
+                    <p>Gracias por comprar en Ecotracker 🌱</p>
+                    <button class="btn btn-outline" @click="showModal = false">Cerrar</button>
+                </div>
+            </div>
+
+            <product-detail v-if="selectedProduct" :product="selectedProduct" @close="selectedProduct = null"
+                @add-to-cart="addToCart">
+            </product-detail>
+
+        </div>
 
         <!--Sección: Hero-->
         <section id="hero">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="assets/hero.mp4" type="video/mp4">
+            </video>
             <div class="hero-content">
                 <h1 class="hero-title">Transforma tus residuos en vida</h1>
                 <p class="hero-subtitle">
@@ -47,12 +111,12 @@
                 </p>
 
                 <div class="hero-button">
-                    <a href="#que-es">
-                        <button>Conocer Ecotracker</button>
+                    <a href="#about">
+                        <button class="btn btn-primary">Conocer Ecotracker</button>
                     </a>
 
-                    <a href="#productos">
-                        <button>Ver tienda</button>
+                    <a href="#catalog">
+                        <button class="btn btn-primary">Ver tienda</button>
                     </a>
                 </div>
             </div>
@@ -62,16 +126,11 @@
         <!--Sección About-->
         <section id="about">
             <h2 class="about-title">
-                Todo lo que necesitas para empezar a compostar</h2>
-
-            <p class="about-subtitle">
-                En Ecotracker te ayudamos a transformar tus residuos
-                orgánicos en compost de forma simple y eficiente.
-            </p>
-
+                Descubre el fascinante proceso del compostaje y disfruta de una vida más <span
+                    class="special-italic">verde</span></h2>
             <div class="grid">
-
                 <div class="card-about">
+                    <img src="assets/icon1.svg" alt="icon">
                     <h3 class="card-title">Deja una huella verde</h3>
                     <p class="card-body">
                         Reduce la cantidad de basura que generas y obtén abono
@@ -81,6 +140,7 @@
                 </div>
 
                 <div class="card-about">
+                    <img src="assets/icon2.svg" alt="icon">
                     <h3 class="card-title">Todo en un solo lugar</h3>
                     <p class="card-body">
                         Encuentra compostadoras, herramientas y accesorios
@@ -89,6 +149,7 @@
                 </div>
 
                 <div class="card-about">
+                    <img src="assets/icon3.svg" alt="icon">
                     <h3 class="card-title">Monitoreo inteligente</h3>
                     <p class="card-body">
                         Complementa tu experiencia con la app Ecotracker
@@ -103,7 +164,7 @@
         <!--Sección How it works-->
         <section id="how-it-works">
             <h2 class="how-title">
-                Cómo funciona Ecotracker
+                Cómo funciona <span class="special-italic">Ecotracker</span>
             </h2>
 
             <p class="how-subtitle">
@@ -114,7 +175,7 @@
             <div class="steps">
 
                 <div class="step">
-                    <h3 class="step-title">1. Elige tu compostera</h3>
+                    <h3 class="step-title"><span class="special-italic">1.</span> <br>Elige tu compostera</h3>
                     <p class="step-body">
                         Selecciona el kit o accesorios adecuados
                         para tu espacio y necesidades.
@@ -122,7 +183,7 @@
                 </div>
 
                 <div class="step">
-                    <h3 class="step-title">2. Instala el sistema</h3>
+                    <h3 class="step-title"><span class="special-italic">2.</span> <br> Instala el sistema</h3>
                     <p class="step-body">
                         Prepara tu compostera y comienza a depositar
                         residuos orgánicos de forma correcta.
@@ -130,7 +191,7 @@
                 </div>
 
                 <div class="step">
-                    <h3 class="step-title">3. Monitorea el proceso</h3>
+                    <h3 class="step-title"><span class="special-italic">3.</span> <br> Monitorea el proceso</h3>
                     <p class="step-body">
                         Utiliza herramientas o la app Ecotracker
                         para seguir el estado de tu compost.
@@ -138,7 +199,7 @@
                 </div>
 
                 <div class="step">
-                    <h3 class="step-title">4. Obtén compost de calidad</h3>
+                    <h3 class="step-title"><span class="special-italic">4.</span> <br> Obtén compost de calidad</h3>
                     <p class="step-body">
                         Disfruta de abono natural listo para
                         nutrir tus plantas y jardines.
@@ -151,11 +212,21 @@
         <!--Sección: Catalog-->
         <section id="catalog">
             <h2 class="catalog-title">Catálogo de productos</h2>
-            <div id="app">
-                <product-list :products="products"></product-list>
+            <div class="catalog-tabs">
+
+                <button class="btn btn-outline" v-for="cat in categories" :key="cat" @click="selectedCategory = cat"
+                    :class="{ active: selectedCategory === cat }">
+                    {{ cat }}
+                </button>
+
             </div>
 
+            <product-list :products="filteredProducts" @add-to-cart="addToCart" @view-detail="selectedProduct = $event">
+            </product-list>
+
         </section>
+
+
 
 
         <!-- Sección: Footer -->
@@ -164,7 +235,7 @@
             <div class="footer-container">
 
                 <div class="footer-brand">
-                    <img src="assets/images/logo.png" alt="Ecotracker logo">
+                    <div class="brand"><a href="#">ecotracker</a></div>
                     <p>
                         Ecotracker te ayuda a transformar residuos orgánicos
                         en compost y construir un futuro más sostenible.
@@ -185,7 +256,7 @@
                     <ul>
                         <li><a href="#about">Sobre nosotros</a></li>
                         <li><a href="#how-it-works">Cómo funciona</a></li>
-                        <li><a href="#catalog">Catálogo</a></li>
+                        <li><a href="#catalog">Tienda</a></li>
                         <li><a href="#contact">Contacto</a></li>
                     </ul>
                 </div>
