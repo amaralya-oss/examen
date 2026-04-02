@@ -216,4 +216,4 @@ Proyecto desarrollado con fines académicos y demostrativos.
 
 ## 📄 Licencia
 
-Uso educativo.
+Uso educativo
