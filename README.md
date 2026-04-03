@@ -1,5 +1,8 @@
 # 🌱 Ecotracker — Plataforma de compostaje doméstico
 
+Acceso ecommerce: https://amaralya-oss.github.io/examen/
+Acceso dashboard: https://amaralya-oss.github.io/examen/login.html + https://amaralya-oss.github.io/examen/admin.html
+
 Ecotracker es una aplicación web que promueve hábitos sostenibles mediante soluciones para compostaje en el hogar. El sistema integra un sitio e-commerce orientado a usuarios y un panel administrativo para la gestión de productos, inventario y métricas de ventas.
 
 El objetivo es facilitar la reducción de residuos orgánicos y fomentar la economía circular desde el hogar.
