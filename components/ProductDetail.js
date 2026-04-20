@@ -22,7 +22,7 @@ app.component('product-detail', {
 
                     <p class="product-detail__category">{{ product.category }}</p>
 
-                    <p class="product-detail__price">$ {{ product.price }}</p>
+                    <p class="product-detail__price">$ {{ product.price.toLocaleString('es-CL') }}</p>
 
                     <p class="product-detail__stock">Stock disponible: {{ product.stock }}</p>
 

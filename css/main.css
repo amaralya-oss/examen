@@ -383,17 +383,22 @@ h3 {
 
 .about-card {
     background: #ffffff0b;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(2px);
     text-align: center;
     padding: 2rem;
     border-radius: 3rem;
     box-shadow: var(--shadow-s2);
     transition: transform .25s ease, box-shadow .25s ease;
     cursor: pointer;
+    transform: translateZ(0);
+    /* 🔥 activa GPU */
+    will-change: transform;
+    /* 🔥 optimiza animación */
+
+
 }
 
 .about-card:hover {
-    background: #ffffff11;
     transform: translateY(-0.3rem);
     box-shadow: 0 1.2rem 2.5rem rgba(0, 0, 0, 0.12);
 }
@@ -600,23 +605,23 @@ h3 {
 
 /* PRODUCT CARD - AGOTADO BADGE */
 .product-card__image-wrapper {
-position: relative;
-display: block;
+    position: relative;
+    display: block;
 }
 
 .product-card__badge {
-position: absolute;
-top: 0.75rem;
-left: 0.75rem;
-background: #dc2626;
-color: #ffffff;
-font-size: 0.8rem;
-font-weight: 700;
-padding: 0.5rem 1rem;
-border-radius: 4px;
-z-index: 10;
-text-transform: uppercase;
-letter-spacing: 0.5px;
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .product-card__name {

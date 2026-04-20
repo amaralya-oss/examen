@@ -55,7 +55,7 @@ app.component('cart-drawer', {
     </div>
 
     <div class="cart-drawer__price">
-      $ {{ item.price }}
+      $ {{ item.price.toLocaleString('es-CL') }}
     </div>
 
     <div class="cart-drawer__qty">
@@ -84,7 +84,7 @@ app.component('cart-drawer', {
       <div class="cart-drawer__footer">
 
         <span class="cart-drawer__total-price">
-          $ {{ cartTotal }}
+          $ {{ cartTotal.toLocaleString('es-CL') }}
         </span>
 
         <button class="btn btn--primary"
